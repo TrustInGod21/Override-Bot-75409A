@@ -4,11 +4,12 @@
 #include "gamers-forge/proslogger.hpp"
 
 #include "liblvgl/display/lv_display.h"
-#include "pros/misc.hpp"
+//#include "pros/misc.hpp"
+#include "pros/motors.h"
 #include "pros/rtos.hpp"
 
 #include "userapi/configuration.hpp"
-#include "userapi/controls/drive.hpp"z
+//#include "userapi/controls/drive.hpp"
 #include "userapi/ui/autom/mode_selector.hpp"
 #include "userapi/ui/op_control.hpp"
 
@@ -91,13 +92,17 @@ void opcontrol() {
 
 	chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 
+	pros::Motor intake_motor(pros::c::motor_move_voltage(2, 127));
+
     while (true) {
-		if (keybindActions::drive::is_arcade() == true) {
-			chassis.opcontrol_arcade_standard(ez::SPLIT);
-		} else {
-			chassis.opcontrol_tank();
-		}
+		// if (keybindActions::drive::is_arcade() == true) {
+		// 	chassis.opcontrol_arcade_standard(ez::SPLIT);
+		// } else {
+		//}
+		chassis.opcontrol_tank();
 
 		pros::delay(ez::util::DELAY_TIME);
 	}
-}
+		
+		pros::delay(ez::util::DELAY_TIME);
+	}

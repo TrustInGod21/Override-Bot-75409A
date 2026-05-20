@@ -1,4 +1,8 @@
-#include "configuration.hpp"
+#include "userapi/configuration.hpp"
+#include "userapi/ui/autom/location_selector.hpp"
+#include "userapi/ui/autom/mode_selector.hpp"
+#include "gamers-forge/automanager.hpp"
+#include "userapi/automonous.hpp"
 
 namespace configuration::drive {
     using namespace devices;

@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Gamers Pros Template",
+    "project_name": "75409A Main",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -734,7 +734,8 @@
       }
     },
     "upload_options": {
-      "description": "A Basic template provided by Gamer Verse"
+      "description": "A Basic template provided by Gamer Verse",
+      "slot": 1
     },
     "use_early_access": true
   }
