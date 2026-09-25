@@ -1,13 +1,14 @@
 #include "main.h"
 
 #include "EZ-Template/util.hpp"
+#include "gamers-forge/bmapper.hpp"
 #include "gamers-forge/proslogger.hpp"
 
 #include "liblvgl/display/lv_display.h"
 //#include "pros/misc.hpp"
 #include "pros/motors.h"
 #include "pros/rtos.hpp"
-
+#include "api.h"
 #include "userapi/configuration.hpp"
 //#include "userapi/controls/drive.hpp"
 #include "userapi/ui/autom/mode_selector.hpp"
@@ -53,7 +54,7 @@ void disabled() {}
  * starts.
  */
 void competition_initialize() {
-    lv_screen_load(ui::autom::mode_selector::mode_screen);
+    //lv_screen_load(ui::autom::mode_selector::mode_screen);
 }
 
 /**
@@ -85,21 +86,44 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
+
+ pros::adi::Pneumatics clawPiston('A', false);
+ pros::adi::Pneumatics positionPiston('B', true);
+
 void opcontrol() {
-    lv_screen_load(ui::driver::driver_screen);
+    //lv_screen_load(ui::driver::driver_screen);
 
 	configuration::controls::button_handler.start();
 
 	chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 
-	pros::Motor intake_motor(pros::c::motor_move_voltage(2, 127));
-
+	//pros::Motor intake_motor(pros::c::motor_move(2, 127));
+	
     while (true) {
 		// if (keybindActions::drive::is_arcade() == true) {
 		// 	chassis.opcontrol_arcade_standard(ez::SPLIT);
 		// } else {
 		//}
 		chassis.opcontrol_tank();
+		
+
+		// if (master.get_digital(DIGITAL_R1)) {
+		// 	intake_motor.move(120);
+		// } else if (master.get_digital(DIGITAL_R2)) {
+		// 	intake_motor.move(-120);
+		// } else {
+		// 	intake_motor.move(0);
+		// }
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+			clawPiston.toggle();
+			pros::delay(250);
+		}
+
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+			positionPiston.toggle();
+			pros::delay(250);
+		} 
+		
 
 		pros::delay(ez::util::DELAY_TIME);
 	}

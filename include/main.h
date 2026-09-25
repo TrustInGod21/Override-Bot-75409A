@@ -36,6 +36,8 @@
 
 #include "api.h"
 
+extern pros::adi::Pneumatics clawPiston;
+extern pros::adi::Pneumatics positionPiston;
 /**
  * You should add more #includes here
  */
@@ -58,6 +60,7 @@
  * that they can be called from user code (i.e. calling autonomous from a
  * button press in opcontrol() for testing purposes).
  */
+ 
 #ifdef __cplusplus
 extern "C" {
 #endif
