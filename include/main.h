@@ -36,8 +36,8 @@
 
 #include "api.h"
 
-extern pros::adi::Pneumatics clawPiston;
-extern pros::adi::Pneumatics positionPiston;
+// extern pros::adi::Pneumatics clawPiston;
+// extern pros::adi::Pneumatics positionPiston;
 /**
  * You should add more #includes here
  */

@@ -6,6 +6,7 @@
 
 #include "liblvgl/display/lv_display.h"
 //#include "pros/misc.hpp"
+#include "pros/misc.h"
 #include "pros/motors.h"
 #include "pros/rtos.hpp"
 #include "api.h"
@@ -87,8 +88,8 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 
- pros::adi::Pneumatics clawPiston('A', false);
- pros::adi::Pneumatics positionPiston('B', true);
+//  pros::adi::Pneumatics clawPiston('A', false);
+//  pros::adi::Pneumatics positionPiston('B', true);
 
 void opcontrol() {
     //lv_screen_load(ui::driver::driver_screen);
@@ -104,25 +105,24 @@ void opcontrol() {
 		// 	chassis.opcontrol_arcade_standard(ez::SPLIT);
 		// } else {
 		//}
-		chassis.opcontrol_tank();
+		chassis.opcontrol_arcade_standard(ez::SPLIT);
 		
 
-		// if (master.get_digital(DIGITAL_R1)) {
-		// 	intake_motor.move(120);
-		// } else if (master.get_digital(DIGITAL_R2)) {
-		// 	intake_motor.move(-120);
-		// } else {
-		// 	intake_motor.move(0);
+		
+		// if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+		// 	clawPiston.open();
+		// 	pros::delay(250);
 		// }
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-			clawPiston.toggle();
-			pros::delay(250);
-		}
 
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-			positionPiston.toggle();
-			pros::delay(250);
-		} 
+		// if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+		// 	positionPiston.toggle();
+		// 	pros::delay(250);
+		// }
+
+		// if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) 
+		// {
+		// 	positionPiston.extend();
+		// }
 		
 
 		pros::delay(ez::util::DELAY_TIME);
