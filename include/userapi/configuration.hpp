@@ -6,6 +6,7 @@
 #include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
 //#include "pros/motors.h"
+#include "pros/distance.hpp"
 #include "pros/misc.h"
 #include "pros/motor_group.hpp"
 #include "pros/motors.hpp"
@@ -32,6 +33,7 @@ namespace devices {
     inline pros::MotorGroup lift_motors({3, -4}, pros::MotorGearset::green); // Lift motor group
     inline pros::adi::Pneumatics clawPiston('A', false);
     inline pros::adi::Pneumatics positionPiston('B', true);
+    inline pros::Distance distance_sensor('C');
 };
 
 namespace configuration::drive {
@@ -47,6 +49,10 @@ namespace clawPiston {
 
     inline void close() {
         devices::clawPiston.set_value(false);
+    }
+    
+    inline bool is_closed() {
+        return false;
     }
 
     inline void toggle() {
@@ -67,6 +73,7 @@ namespace positionPiston {
     inline void toggle() {
         devices::positionPiston.toggle();
     }
+
 }
 
 // Making Intake Functions
@@ -119,7 +126,18 @@ namespace configuration::controls {
         .onHold(intake::spin)
         .onPress(positionPiston::extend)
         .onPress(clawPiston::open)
-        .onRelease(intake::stop);
+        .onPress([]() {
+            if (devices::distance_sensor.get() < 10) {
+                clawPiston::close();
+            }
+        })
+        .onRelease(intake::stop)
+        .onRelease([]() {
+            if (clawPiston::is_closed())
+            {
+                positionPiston::retract();
+            }
+        });
     
     // Outtake pins and cups
     button_handler.bind(pros::E_CONTROLLER_DIGITAL_DOWN)
